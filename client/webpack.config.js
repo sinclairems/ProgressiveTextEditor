@@ -17,6 +17,11 @@ module.exports = () => {
     plugins: [
       new HtmlWebpackPlugin({
         template: "./index.html",
+        title: 'JATE'
+      }),
+      new InjectManifest({
+        swSrc: "./src-sw.js",
+        swDest: "src-sw.js",
       }),
       new WebpackPwaManifest({
         name: "JATE Text Editor",
@@ -24,20 +29,18 @@ module.exports = () => {
         description: "Just Another Text Editor",
         background_color: "#ffffff",
         theme_color: "#3367D6",
-        start_url: "/",
+        start_url: "./",
+        publicPath: "./",
         icons: [
           {
             src: path.resolve("src/images/logo.png"),
             sizes: [96, 128, 192, 256, 384, 512],
+            destination: path.join("assets", "icons"),
           },
         ],
-      }),
-      ...(process.env.NODE_ENV === 'production' ? [ 
-        new InjectManifest({
-          swSrc: './src-sw.js',
-        })
-      ] : []) // Include only in production
-    ],
+      }
+    ),
+  ],
 
     module: {
       rules: [
